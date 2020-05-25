@@ -1,18 +1,36 @@
 #include <err.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #include <tee_client_api.h>
 #include <secure_math_ta.h>
 
 int main(void)
 {
+	int network_socket;
+	struct sockaddr_in server_address;
+	
 	TEEC_Result res;
 	TEEC_Context ctx;
 	TEEC_Session sess;
 	TEEC_Operation op;
 	TEEC_UUID uuid = TA_SECURE_MATH_UUID;
 	uint32_t err_origin;
+
+	network_socket = socket(AF_INET, SOCK_STREAM, 0);
+	server_address.sin_family = AF_INET;
+	server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
+	server_address.sin_port = htons(8001);
+	int status = connect(network_socket, (struct sockaddr *) &server_address, sizeof(server_adddress));
+	if (status == -1)
+	{
+		printf("An error occured while creating a connection\n");
+	}
 
 	res = TEEC_InitializeContext(NULL, &ctx);
 	if (res != TEEC_SUCCESS)
