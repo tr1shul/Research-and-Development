@@ -3,7 +3,7 @@
 
 #include <secure_aes_ta.h>
 
-#define TA_UUID				TA_AES_UUID
+#define TA_UUID				TA_SECURE_AES_UUID
 
 #define TA_FLAGS			TA_FLAG_EXEC_DDR
 #define TA_STACK_SIZE			(2 * 1024)
